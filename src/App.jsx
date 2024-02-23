@@ -8,14 +8,6 @@ const App = () => {
   // this state will toggle the BookmarkDetails compoent and send the id
   const [toggleDetails, setToggleDetails] = useState({ show: false, id: null });
 
-  function handleChange() {
-    console.log("clicked");
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-  }
-
   return (
     <div>
       <h1>Bookmarks Frontend</h1>
