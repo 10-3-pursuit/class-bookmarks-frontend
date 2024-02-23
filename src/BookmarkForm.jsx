@@ -1,11 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 
 // name: "Youtube",
 // url: "https://www.youtube.com",
 // isFavorite: false,
 // category: "recreational",
 
-const BookmarkForm = () => {
+const BookmarkForm = ({ setBookmarks, setToggleForm }) => {
   const [bookmark, setBookmark] = useState({
     name: "",
     url: "",
@@ -19,6 +19,17 @@ const BookmarkForm = () => {
 
   function handleSubmit(e) {
     e.preventDefault();
+
+    const options = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(bookmark),
+    };
+
+    fetch("http://localhost:3003/api/bookmarks", options)
+      .then((res) => res.json())
+      .then((data) => setBookmarks(data.bookmarks))
+      .then(() => setToggleForm(false));
   }
 
   return (
