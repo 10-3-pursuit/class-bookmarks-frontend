@@ -13,7 +13,7 @@ const BookmarkForm = () => {
     category: "",
   });
 
-  function handleChange() {
+  function handleChange(e) {
     setBookmark({ ...bookmark, [e.target.id]: e.target.value });
   }
 
