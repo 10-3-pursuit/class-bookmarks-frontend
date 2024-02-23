@@ -1,11 +1,20 @@
 import { useState } from "react";
 import Bookmarks from "./Bookmarks";
 import BookmarkDetails from "./BookmarkDetails";
+import BookmarkForm from "./BookmarkForm";
 
 const App = () => {
   const [bookmarks, setBookmarks] = useState([]);
   // this state will toggle the BookmarkDetails compoent and send the id
   const [toggleDetails, setToggleDetails] = useState({ show: false, id: null });
+
+  function handleChange() {
+    console.log("clicked");
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+  }
 
   return (
     <div>
@@ -16,6 +25,7 @@ const App = () => {
         setBookmarks={setBookmarks}
       />
       {toggleDetails.show && <BookmarkDetails toggleDetails={toggleDetails} />}
+      <BookmarkForm />
     </div>
   );
 };
