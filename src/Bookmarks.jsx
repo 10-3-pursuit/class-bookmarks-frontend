@@ -1,13 +1,21 @@
-import { useEffect } from "react";
+const Bookmarks = ({
+  bookmarks,
+  setBookmarks,
+  setToggleDetails,
+  edit,
+  setEdit,
+}) => {
+  if (bookmarks.length === 0) return null;
 
-const Bookmarks = ({ bookmarks, setBookmarks, setToggleDetails }) => {
-  useEffect(() => {
-    fetch("http://localhost:3003/api/bookmarks")
+  function handleDelete(id) {
+    const options = {
+      method: "DELETE",
+    };
+
+    fetch(`http://localhost:3003/api/bookmarks/${id}`, options)
       .then((res) => res.json())
       .then((data) => setBookmarks(data.bookmarks));
-  }, []);
-
-  if (bookmarks.length === 0) return null;
+  }
 
   return (
     <div>
@@ -19,6 +27,8 @@ const Bookmarks = ({ bookmarks, setBookmarks, setToggleDetails }) => {
           <button onClick={() => setToggleDetails({ show: true, id })}>
             Details
           </button>
+          <button onClick={() => setEdit({ show: true, id })}>Edit</button>
+          <button onClick={() => handleDelete(id)}>Delete</button>
           <hr />
         </div>
       ))}
