@@ -44,8 +44,14 @@ const BookmarkForm = ({ setBookmarks, setToggleForm, edit, setEdit }) => {
 
       fetch("http://localhost:3003/api/bookmarks", options)
         .then((res) => res.json())
-        .then((data) => setBookmarks(data.bookmarks))
-        .then(() => navigate("/"));
+        .then((data) => {
+          if (data.message) alert("All Inputs Must Be Filled");
+          else {
+            setBookmarks(data.bookmarks);
+            navigate("/");
+          }
+        })
+        .catch((err) => console.log(err));
     }
   }
 
