@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 // name: "Youtube",
 // url: "https://www.youtube.com",
@@ -6,6 +7,9 @@ import { useState, useEffect } from "react";
 // category: "recreational",
 
 const BookmarkForm = ({ setBookmarks, setToggleForm, edit, setEdit }) => {
+  const navigate = useNavigate();
+  const { id } = useParams();
+
   const [bookmark, setBookmark] = useState({
     name: "",
     url: "",
@@ -17,36 +21,20 @@ const BookmarkForm = ({ setBookmarks, setToggleForm, edit, setEdit }) => {
     setBookmark({ ...bookmark, [e.target.id]: e.target.value });
   }
 
-  // function handleSubmit(e) {
-  //   e.preventDefault();
-
-  //   const options = {
-  //     method: "POST",
-  //     headers: { "Content-Type": "application/json" },
-  //     body: JSON.stringify(bookmark),
-  //   };
-
-  //   fetch("http://localhost:3003/api/bookmarks", options)
-  //     .then((res) => res.json())
-  //     .then((data) => setBookmarks(data.bookmarks))
-  //     .then(() => setToggleForm(false));
-  // }
-
   function handleSubmit(e) {
     e.preventDefault();
 
-    if (edit.show) {
+    if (id) {
       const options = {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(bookmark),
       };
 
-      fetch(`http://localhost:3003/api/bookmarks/${edit.id}`, options)
+      fetch(`http://localhost:3003/api/bookmarks/${id}`, options)
         .then((res) => res.json())
         .then((data) => setBookmarks(data.bookmarks))
-        .then(() => setToggleForm(false))
-        .then(() => setEdit({ show: false, id: null }));
+        .then(() => navigate("/"));
     } else {
       const options = {
         method: "POST",
@@ -57,24 +45,28 @@ const BookmarkForm = ({ setBookmarks, setToggleForm, edit, setEdit }) => {
       fetch("http://localhost:3003/api/bookmarks", options)
         .then((res) => res.json())
         .then((data) => setBookmarks(data.bookmarks))
-        .then(() => setToggleForm(false))
-        .then(() => setEdit({ show: false, id: null }));
+        .then(() => navigate("/"));
     }
   }
 
   function handleCancel() {
-    setEdit({ show: false, id: null });
-    setToggleForm(false);
+    navigate("/");
   }
-  ``;
 
   useEffect(() => {
-    if (edit.show) {
-      fetch(`http://localhost:3003/api/bookmarks/${edit.id}`)
+    if (id) {
+      fetch(`http://localhost:3003/api/bookmarks/${id}`)
         .then((res) => res.json())
         .then((data) => setBookmark(data.bookmark));
+    } else {
+      setBookmark({
+        name: "",
+        url: "",
+        isFavorite: false,
+        category: "",
+      });
     }
-  }, [edit.id]);
+  }, [id]);
 
   return (
     <div>

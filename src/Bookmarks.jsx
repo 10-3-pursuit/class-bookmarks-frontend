@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 const Bookmarks = ({
   bookmarks,
   setBookmarks,
@@ -24,10 +26,12 @@ const Bookmarks = ({
         <div key={id}>
           <h3>Name: {name}</h3>
           <p>Category: {category}</p>
-          <button onClick={() => setToggleDetails({ show: true, id })}>
-            Details
-          </button>
-          <button onClick={() => setEdit({ show: true, id })}>Edit</button>
+          <Link to={`/${id}`}>
+            <button>Details</button>
+          </Link>
+          <Link to={`/edit/${id}`}>
+            <button>Edit</button>
+          </Link>
           <button onClick={() => handleDelete(id)}>Delete</button>
           <hr />
         </div>

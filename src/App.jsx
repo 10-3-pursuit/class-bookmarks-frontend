@@ -1,4 +1,7 @@
 import { useState, useEffect } from "react";
+import { Routes, Route, Link } from "react-router-dom";
+
+// Components
 import Bookmarks from "./Bookmarks";
 import BookmarkDetails from "./BookmarkDetails";
 import BookmarkForm from "./BookmarkForm";
@@ -19,25 +22,55 @@ const App = () => {
   return (
     <div>
       <h1>Bookmarks Frontend</h1>
-      {!toggleForm && (
-        <button onClick={() => setToggleForm(true)}>Create Bookmark</button>
-      )}
-      <Bookmarks
-        setToggleDetails={setToggleDetails}
-        bookmarks={bookmarks}
-        setBookmarks={setBookmarks}
-        edit={edit}
-        setEdit={setEdit}
-      />
-      {toggleDetails.show && <BookmarkDetails toggleDetails={toggleDetails} />}
-      {(edit.show || toggleForm) && (
-        <BookmarkForm
-          edit={edit}
-          setEdit={setEdit}
-          setBookmarks={setBookmarks}
-          setToggleForm={setToggleForm}
+
+      <Link to="/new">
+        <button>Create Bookmark</button>
+      </Link>
+
+      <Routes>
+        {/* show all bookmarks component */}
+        <Route
+          path="/"
+          element={
+            <Bookmarks
+              setToggleDetails={setToggleDetails}
+              bookmarks={bookmarks}
+              setBookmarks={setBookmarks}
+              edit={edit}
+              setEdit={setEdit}
+            />
+          }
         />
-      )}
+        {/* details route */}
+        <Route
+          path="/:id"
+          element={<BookmarkDetails toggleDetails={toggleDetails} />}
+        />
+        {/* edit route */}
+        <Route
+          path="/edit/:id"
+          element={
+            <BookmarkForm
+              edit={edit}
+              setEdit={setEdit}
+              setBookmarks={setBookmarks}
+              setToggleForm={setToggleForm}
+            />
+          }
+        />
+        {/* create new bookmark */}
+        <Route
+          path="/new"
+          element={
+            <BookmarkForm
+              edit={edit}
+              setEdit={setEdit}
+              setBookmarks={setBookmarks}
+              setToggleForm={setToggleForm}
+            />
+          }
+        />
+      </Routes>
     </div>
   );
 };
